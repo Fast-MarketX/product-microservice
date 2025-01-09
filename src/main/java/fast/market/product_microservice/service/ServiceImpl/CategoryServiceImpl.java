@@ -23,8 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryDto createCategory(CategoryDto categoryDto) {
-        if (categoryRepository.existsById(categoryDto.getCategoryId())){
-            throw new CategoryAlreadyExistsException("Category with the given ID already exists");
+        if (categoryRepository.existsByCategoryName(categoryDto.getCategoryName())){
+            throw new CategoryAlreadyExistsException("Category with the given name already exists");
         }
         Category createdCategory = categoryMapper.CategoryDtoToCategory(categoryDto);
         categoryRepository.save(createdCategory);

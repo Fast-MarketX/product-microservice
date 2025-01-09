@@ -1,5 +1,6 @@
 package fast.market.product_microservice.controller;
 
+import fast.market.product_microservice.dto.LinkProductToCategoryDto;
 import fast.market.product_microservice.dto.ProductDto;
 import fast.market.product_microservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,11 @@ public class ProductController {
     public ResponseEntity<String> deleteUser(@PathVariable Long productId){
         productService.deleteProduct(productId);
         return new ResponseEntity<>("Product was successfully deleted!", HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/linkProductToCategory")
+    public ResponseEntity<ProductDto> linkProductToCategory(LinkProductToCategoryDto linkProductToCategoryDto){
+        ProductDto productDto = productService.linkProductToCategory(linkProductToCategoryDto);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 }
