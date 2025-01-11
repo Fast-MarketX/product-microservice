@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LinkProductToCategoryDto {
+public class ProductCategoryLinkDto {
     private Long productId;
     private Long categoryId;
 }

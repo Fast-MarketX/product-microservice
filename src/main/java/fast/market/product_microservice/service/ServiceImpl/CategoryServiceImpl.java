@@ -6,6 +6,7 @@ import fast.market.product_microservice.exception.category.CategoryAlreadyExists
 import fast.market.product_microservice.exception.category.CategoryNotFoundException;
 import fast.market.product_microservice.mapper.CategoryMapper;
 import fast.market.product_microservice.repository.CategoryRepository;
+import fast.market.product_microservice.repository.ProductRepository;
 import fast.market.product_microservice.service.CategoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private CategoryMapper categoryMapper;

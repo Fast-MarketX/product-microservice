@@ -1,7 +1,5 @@
 package fast.market.product_microservice.exception.category;
 
-import fast.market.product_microservice.exception.product.ProductAlreadyExistsException;
-import fast.market.product_microservice.exception.product.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,5 +19,12 @@ public class CategoryExceptionHandler{
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(categoryAlreadyExistsException.getMessage());
+    }
+
+    @ExceptionHandler(CategoryDuplicationException.class)
+    public ResponseEntity<Object> handleCategoryDuplicationException(CategoryDuplicationException categoryDuplicationException){
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(categoryDuplicationException.getMessage());
     }
 }

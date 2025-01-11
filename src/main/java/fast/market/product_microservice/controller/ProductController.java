@@ -1,6 +1,6 @@
 package fast.market.product_microservice.controller;
 
-import fast.market.product_microservice.dto.LinkProductToCategoryDto;
+import fast.market.product_microservice.dto.ProductCategoryLinkDto;
 import fast.market.product_microservice.dto.ProductDto;
 import fast.market.product_microservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +38,15 @@ public class ProductController {
         return new ResponseEntity<>("Product was successfully deleted!", HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/linkProductToCategory")
-    public ResponseEntity<ProductDto> linkProductToCategory(LinkProductToCategoryDto linkProductToCategoryDto){
-        ProductDto productDto = productService.linkProductToCategory(linkProductToCategoryDto);
-        return new ResponseEntity<>(productDto, HttpStatus.OK);
+    @PatchMapping("/linkProductToCategory")
+    public ResponseEntity<String> linkProductToCategory(@RequestBody ProductCategoryLinkDto linkCategoryToProductDto) {
+        productService.linkProductToCategory(linkCategoryToProductDto);
+        return new ResponseEntity<>("Product was linked to the category", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/removeCategoryFromProduct")
+    public ResponseEntity<String> removeCategoryFromProduct(@RequestBody ProductCategoryLinkDto productCategoryLinkDto) {
+        productService.removeCategoryFromProduct(productCategoryLinkDto);
+        return new ResponseEntity<>("Product was successfully deleted from category", HttpStatus.NO_CONTENT);
     }
 }
