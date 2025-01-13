@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.ProductToProductDto(createdProduct);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public ProductDto getProductById(Long productId) {
         Product product = productRepository.findByIdWithCategories(productId)

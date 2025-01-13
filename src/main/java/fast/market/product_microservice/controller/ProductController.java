@@ -27,13 +27,13 @@ public class ProductController {
     }
 
     @PatchMapping("/update/{productId}")
-    public ResponseEntity<ProductDto> updateUser(@RequestBody ProductDto productDto, @PathVariable Long productId){
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto, @PathVariable Long productId){
         ProductDto updatedProduct = productService.updateProduct(productDto, productId);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{productId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long productId){
+    public ResponseEntity<String> deleteProduct(@PathVariable Long productId){
         productService.deleteProduct(productId);
         return new ResponseEntity<>("Product was successfully deleted!", HttpStatus.NO_CONTENT);
     }
