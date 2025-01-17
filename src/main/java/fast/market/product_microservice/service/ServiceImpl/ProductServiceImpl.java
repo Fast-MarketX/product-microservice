@@ -39,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
 
     String productAlreadyExistsExMessage = "Product with the given name already exists.";
     String productNotFoundExMessage = "Product with the given ID does not exist.";
-
     String categoryNotFoundExMessage = "Category with the given ID does not exist";
+
     @Override
     @Transactional
     public ProductDto createProduct(ProductDto productDto) {
@@ -70,8 +70,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     @Override
     public ProductDto getProductById(Long productId) {
-        Product product = productRepository.findByIdWithCategories(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productNotFoundExMessage));
+        Product product = productRepository.findByIdWithCategories(productId).orElseThrow(() -> new ProductNotFoundException(productNotFoundExMessage));
         return productMapper.ProductToProductDto(product);
     }
 
