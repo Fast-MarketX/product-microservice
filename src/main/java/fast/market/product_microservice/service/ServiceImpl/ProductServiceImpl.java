@@ -5,10 +5,13 @@ import fast.market.product_microservice.dto.CategoryDto;
 import fast.market.product_microservice.dto.ProductDto;
 import fast.market.product_microservice.entity.Category;
 import fast.market.product_microservice.entity.Product;
+import fast.market.product_microservice.events.ProductEvent;
+import fast.market.product_microservice.events.ProductEventType;
 import fast.market.product_microservice.exception.category.CategoryDuplicationException;
 import fast.market.product_microservice.exception.category.CategoryNotFoundException;
 import fast.market.product_microservice.exception.product.ProductAlreadyExistsException;
 import fast.market.product_microservice.exception.product.ProductNotFoundException;
+import fast.market.product_microservice.kafka.producer.ProductKafkaProducer;
 import fast.market.product_microservice.mapper.CategoryMapper;
 import fast.market.product_microservice.mapper.ProductMapper;
 import fast.market.product_microservice.repository.CategoryRepository;
@@ -27,6 +30,9 @@ import java.util.Set;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductKafkaProducer productKafkaProducer;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -87,10 +93,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long productId) {
-        if(!productRepository.existsById(productId)){
-            throw new ProductNotFoundException(productNotFoundExMessage);
-        }
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException(productNotFoundExMessage));
+
         productRepository.deleteById(productId);
+
+        ProductEvent event = new ProductEvent(product, ProductEventType.DELETED);
+        productKafkaProducer.sendProductEvent(event);
     }
 
     @Override

@@ -16,8 +16,11 @@ spring:
     open-in-view: false
 
   kafka:
-    bootstrap-servers:
-      localhost: 9092
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: product-service-group
       auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: '*'
+    producer:
+      spring.json.add.type.headers: false
